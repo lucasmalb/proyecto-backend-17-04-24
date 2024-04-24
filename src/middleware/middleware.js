@@ -1,16 +1,18 @@
-export const auth = (req, res, next) => {
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }else{
-        const email = req.body.email;
-        const password = req.body.password;
-        console.log(email, password)
-        if (email == "adminCoder@coder.com" && password == "adminCod3r123") {
-            req.session.failLogin = false;
-            req.session.admin = true;
-        }else{
-            req.session.admin = false;
+export const auth = function (req, res, next) {
+    const {user, password} = req.body;
+    
+     //Veo si hay un admincoder user.
+    if (user === "admincoder@coder.com" && password === "adminCod3r123") {
+        req.session.user = user;
+        req.session.admin = true;
+        const adminUser = {
+            user: "admincoder@coder.com",
+            role: "admin"
         }
+
+        req.session.user = adminUser;
+        return res.redirect("/home");
+    } else {
+        return next();
     }
-    next();
 }
