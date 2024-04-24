@@ -1,6 +1,7 @@
+
 import express from "express";
 import { productManagerDB } from "../dao/ProductManagerDB.js";
-import { cartManagerDB } from "../dao/CartManagerDB.js";
+import cartManagerDB from "../dao/cartManagerDB.js"
 
 const router = express.Router();
 const ProductService = new productManagerDB();

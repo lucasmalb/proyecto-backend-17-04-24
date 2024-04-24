@@ -14,8 +14,8 @@ router.get("/", async (req, res) => {
       title: "Backend / Final - Home",
       style: "styles.css",
       products: products,
-      user: req.session.user,
-      isAdmin: req.session.admin
+      user: req.session.user.email,
+      isAdmin: req.session.admin.email
     });
   } catch (error) {
     res.status(500).json({ error: "Error interno del servidor" });
@@ -175,7 +175,7 @@ router.get("/login", (req, res) => {
       'login',
       {
           title: 'Login',
-          style: 'index.css',
+          style: 'styles.css',
           failLogin: req.session.failLogin ?? false
       }
   )
@@ -186,7 +186,7 @@ router.get("/register", (req, res) => {
       'register',
       {
           title: 'Register',
-          style: 'index.css',
+          style: 'styles.css',
           failRegister: req.session.failRegister ?? false
       }
   )
