@@ -1144,3 +1144,109 @@ aside li h2 {
   height: 10px;
   border-bottom: 2px solid white;
 }
+.form {
+  z-index: 15;
+  position: relative;
+  background: #fff;
+  width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 100px auto 10px;
+  overflow: hidden;
+}
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.form-group label {
+  display: block;
+  margin: 6px 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.form-group input {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+  transition: 0.3s ease;
+}
+.form-group input:focus {
+  color: rgba(0, 0, 0, 0.8);
+}
+.form-group button {
+  outline: none;
+  background: #4285f4;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 20px;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  word-spacing: 0.2rem;
+}
+.form-group .form-remember {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.form-group .form-remember input[type="checkbox"] {
+  display: inline-block;
+  width: auto;
+  height: 16px;
+  margin: 0 0.3rem 0 0;
+  vertical-align: middle;
+}
+.form-group .form-recovery {
+  color: #4285f4;
+  font-size: 14px;
+  text-decoration: none;
+}
+.form-panel {
+  padding: 0 5%;
+  box-sizing: border-box;
+}
+.form-panel.one:before {
+  content: "";
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+}
+.form-panel.one.hidden:before {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+.form-header {
+  margin: 0;
+}
+.form-header h1 {
+  padding: 4px 0;
+  color: #4285f4;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}

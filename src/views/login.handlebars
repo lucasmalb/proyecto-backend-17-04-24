@@ -1,19 +1,81 @@
-<div class="user-box">
-    <h1>Login</h1>
-    <form class="user-form" method="post" action="/api/sessions/login">
-        <label for="email">Email</label>
-        <input class="input-text" type="email" name="email" >
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <label for="password">Password</label>
-        <input class="input-text" type="password" name="password">
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const successRegister = urlParams.get('successRegister');
 
-        <button type="submit" class="button-home">Log in</button>
-    </form>
-    <span><a href="/register" target="_self"  class="button-home">Register</a></span>
-</div>
+    if (successRegister === 'true') {
+      Toastify({
+        text: "¡Registro exitoso! Por favor, inicia sesión con tus nuevas credenciales.",
+        duration: 3500,
+        gravity: "center",
+        position: 'center',
+        backgroundColor: "#4caf50",
+        close: false,
+      }).showToast();
+    }
+
+    Swal.fire({
+      icon: "info",
+      iconHtml: '<img class="zoom-icon" style="filter: invert(100%)" src="../img/lock-fill.svg">',
+      html: `<div class="form-panel one">
+                <div class="form-header">
+                  <h1>Iniciar Sesión</h1>
+                </div>
+                <div class="form-content">
+                  <form id="loginForm" method="post" action="/api/sessions/login">
+                    <div class="form-group">
+                      <label for="email">Correo electrónico</label>
+                      <input type="email" name="email" id="email" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Contraseña</label>
+                      <input type="password" id="password" name="password" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-remember">
+                        <input type="checkbox" id="remember-me" name="remember">Recordarme</input>
+                      </label>
+                      {{!-- <a class="form-recovery" href="#">¿Olvidó su contraseña?</a> --}}
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" style="background: #4285f4">Iniciar Sesión</button>
+                    </div>
+                    <div class="form-group justify-content-center">
+                      <span>No estás registrado? <a style="padding: 0;color: #4285f4;" href="/register">Crear una cuenta</a></span>
+                    </div>
+                  </form>
+                </div>
+              </div>`,
+      showCloseButton: false,
+      showConfirmButton: false,
+      showCancelButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+  });
+</script>
 
 {{#if failLogin}}
-    <script type="text/javascript">
-        alert('Login Failed!');
-    </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    Toastify({
+      text: "¡Inicio de sesión fallido!\n Por favor, verifica tu correo electrónico y contraseña e intenta nuevamente.",
+      duration: 3500,
+      gravity: "center",
+      position: 'center',
+      backgroundColor: "#ff6347",
+      close: false,
+    }).showToast();
+  });
+</script>
 {{/if}}
+
+<style>
+  .zoom-icon{
+      zoom: 3.2;
+  }
+</style>

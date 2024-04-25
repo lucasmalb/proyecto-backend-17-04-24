@@ -2,29 +2,47 @@ import { Router } from "express";
 import { productModel } from "../dao/models/productModel.js";
 import { cartModel } from "../dao/models/cartModel.js";
 import { productManagerDB } from "../dao/ProductManagerDB.js";
+import { auth } from "../middleware/middleware.js";
 
 const ProductService = new productManagerDB();
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const limit = 5;
     const products = await productModel.find().limit(limit).lean();
     res.render("home", {
       title: "Backend / Final - Home",
       style: "styles.css",
+      user: req.session.user,
       products: products,
-      user: req.session.user.email,
-      isAdmin: req.session.admin.email
     });
   } catch (error) {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
 
-router.get("/products", async (req, res) => {
+router.get("/login", (req, res) => {
+  res.render("login", {
+    title: "Backend / Final - Login",
+    style: "styles.css",
+    failLogin: req.session.failLogin ?? false,
+  });
+});
+
+router.get("/register", (req, res) => {
+  res.render("register", {
+    title: "Backend / Final - Register",
+    style: "styles.css",
+    failRegister: req.session.failRegister ?? false,
+    failReason: req.session.failReason ?? "",
+  });
+});
+
+router.get("/products", auth, async (req, res) => {
   try {
     const { page = 1, limit = 8, sort } = req.query;
+    //uso limit 8 solo por cuestiones esteticas para que funcione bien con mi frontEnd
     const options = {
       page: Number(page),
       limit: Number(limit),
@@ -106,6 +124,7 @@ router.get("/products", async (req, res) => {
       prevLink,
       nextLink,
       categories: categories,
+      user: req.session.user,
     };
 
     return res.render("products", response);
@@ -115,20 +134,22 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/realtimeproducts", async (req, res) =>
+router.get("/realtimeproducts", auth, async (req, res) =>
   res.render("realTimeProducts", {
     products: await ProductService.getAllProducts(),
     style: "styles.css",
+    user: req.session.user,
   })
 );
 
-router.get("/chat", async (req, res) =>
+router.get("/chat", auth, async (req, res) =>
   res.render("chat", {
     style: "styles.css",
+    user: req.session.user,
   })
 );
 
-router.get("/cart/:cid", async (req, res) => {
+router.get("/cart/:cid", auth, async (req, res) => {
   try {
     const { cid } = req.params;
     const cart = await cartModel.findOne({ _id: cid }).lean();
@@ -147,13 +168,14 @@ router.get("/cart/:cid", async (req, res) => {
       title: "Backend / Final - cart",
       style: "styles.css",
       payload: products,
+      user: req.session.user,
     });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.get("/products/item/:pid", async (req, res) => {
+router.get("/products/item/:pid", auth, async (req, res) => {
   try {
     const { pid } = req.params;
     const product = await productModel.findOne({ _id: pid }).lean();
@@ -164,45 +186,22 @@ router.get("/products/item/:pid", async (req, res) => {
       title: "Detalles del Producto",
       style: "styles.css",
       product: product,
+      user: req.session.user,
     });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.get("/login", (req, res) => {
-  res.render(
-      'login',
-      {
-          title: 'Login',
-          style: 'styles.css',
-          failLogin: req.session.failLogin ?? false
-      }
-  )
+router.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al destruir la sesión:", err);
+      res.status(500).json({ error: "Error interno del servidor" });
+    } else {
+      res.redirect("/login");
+    }
+  });
 });
-
-router.get("/register", (req, res) => {
-  res.render(
-      'register',
-      {
-          title: 'Register',
-          style: 'styles.css',
-          failRegister: req.session.failRegister ?? false
-      }
-  )
-});
-
-router.get("/logout", (req, res) => {
-  req.session.destroy(error => {
-      if (error) {
-          return res.send({
-              status: "Logout ERROR",
-              body: error
-          });
-      }else{
-          return res.redirect("/login");
-      }
-  })
-})
 
 export default router;

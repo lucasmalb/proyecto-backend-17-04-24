@@ -1,29 +1,87 @@
-<div class="user-box">
-    <h1>Register</h1>
-    <form class="user-form" method="post" action="/api/sessions/register">
+<!-- Importar librerías -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <label for="first_name">First Name</label>
-        <input class="input-text" type="text" name="first_name" id="first_name">
+<!-- Estilos -->
+<style>
+  .zoom-icon {
+    zoom: 3.2;
+  }
 
-        <label for="last_name">Last Name</label>
-        <input class="input-text" type="text" name="last_name" id="last_name">
+  div:where(.swal2-icon).swal2-success {
+    background-color: #404040 !important;
+  }
+</style>
 
-        <label for="email">Email</label>
-        <input class="input-text" type="email" name="email" id="email">
+<!-- Scripts -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    showRegisterModal();
+    showFailRegisterToast();
+  });
 
-        <label for="age">Age</label>
-        <input class="input-text" type="number" name="age" id="age">
+  function showRegisterModal() {
+    Swal.fire({
+      icon: "info",
+      iconHtml: '<img class="zoom-icon" style="filter: invert(100%)" src="../img/person-plus-fill.svg">',
+      html: `<div class="form-panel one">
+                <div class="form-header">
+                  <h1>Registrar una cuenta</h1>
+                </div>
+                <div class="form-content">
+                  <form id="registerForm" method="post" action="/api/sessions/register">
+                    <div class="form-group">
+                      <label for="first_name">Nombre</label>
+                      <input type="text" id="first_name" name="first_name" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label for="last_name">Apellido</label>
+                      <input type="text" name="last_name" id="last_name" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label for="age">Edad</label>
+                      <input type="number" name="age" id="age" required="required">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Contraseña</label>
+                      <input type="password" id="password" name="password" required="required">
+                    </div>
+                    <div class="form-group">
+                      <input type="hidden" id="failReason" value="{{ failReason }}">
+                      <input type="hidden" id="failRegister" value="{{ failRegister }}">
+                      <button type="submit" style="background: #4daf7c">Crear cuenta</button>
+                    </div>
+                    <span>o</span>
+                    <div class="form-group">
+                      <button type="button" onclick="window.location.href='/login'">Iniciar Sesión</button>
+                    </div>
+                  </form>
+                </div>
+              </div>`,
+      showCloseButton: false,
+      showConfirmButton: false,
+      showCancelButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+  }
 
-        <label for="password">Password</label>
-        <input class="input-text" type="password" name="password" id="password">
-
-        <button type="submit" class="button-home">Register</button>
-    </form>
-    <span><a href="/login" target="_self" class="button-home">Log in</a></span>
-</div>
-
-{{#if failRegister}}
-    <script type="text/javascript">
-        alert('Register Failed!');
-    </script>
-{{/if}}
+  function showFailRegisterToast() {
+    const failRegister = document.getElementById('failRegister').value === 'true';
+    const failReason = document.getElementById('failReason').value;
+    if (failRegister) {
+      Toastify({
+        text: failReason || "Registro fallido",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        backgroundColor: "#ff6347",
+      }).showToast();
+    }
+  }
+</script>

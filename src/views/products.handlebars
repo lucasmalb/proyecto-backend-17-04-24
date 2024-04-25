@@ -1,8 +1,25 @@
-
 <div class="mx-auto px-4">
   <div class="mx-auto my-2 text-center border-2 text-uppercase">
     <h1>Tienda</h1>
   </div>
+        {{!-- {{#if user}}
+        <div style="display:flex;position:absolute;top:8%;right:1%;flex-direction: column;">
+          <div style="display: flex; justify-content: space-between;align-items: center;">
+            <p class="">Bienvenido {{user.first_name}} {{user.last_name}}!</p>
+            <form style="margin: 0 0 0 3rem"action="/logout" method="POST">
+            <button type="submit" class="btn button-black pl-3">Cerrar sesión</button>
+            </form>
+          </div>
+          <div style="display: flex;justify-content: space-between;align-items: center;">
+            <p class="">✉ {{user.email}}</p>
+            <p class="">Edad: {{user.age}}</p>
+            <p class="">Cuenta: {{user.role}}</p>
+          </div>
+    </div>
+
+    {{else}}
+   {{/if}} --}}
+
   <div class="containerProducts">
     <div class="sidebar">
       <div class="logo text-center">JIF Style Store</div>
@@ -34,10 +51,10 @@
         <div class="tarjeta thumb-wrapper">
           <figure>
             <div class="image-container">
-              {{#if thumbnail}}
-              <img class="card-img" src="./img/{{thumbnail}}" alt="{{title}}"/>
+              {{#if thumbnails}}
+              <img class="card-img" src="img/{{thumbnails}}" alt="{{title}}" />
               {{else}}
-              <img class="card-img" src="img/noThumbnail.jpg" alt="{{title}}" />
+              <img class="card-img" src="img/noThumbnails.webp" alt="{{title}}" />
               {{/if}}
               <div class="mask"></div>
               <figcaption>
