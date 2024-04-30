@@ -7,7 +7,7 @@
   user-select: none;
 }
 body {
-  background-color:white;
+  background-color:black;
 }
 .h1,
 .h2,
@@ -23,6 +23,7 @@ h5,
 h6 {
   font-weight: 900 !important;
   margin: 0 !important;
+  color: white;
 }
 .centrar {
   text-align: center;
@@ -245,17 +246,23 @@ p {
 }
 .container {
   max-width: 100% !important;
+  background-color: black;
+  box-shadow: 5px 5px 10px orange;
 
 }
 .tit-nav {
-  color:rgb(212, 197, 197);
+  color:orange;
 }
 .tit-nav strong{
-  color: #5185C7;
+  color:white;
 }
 .nav-link {
   margin: 0 1rem;
+  color: orange;
 }
+.nav-link:hover{
+  color: white;
+} 
 .tit-nav .noto-serif-jp-regular {
   font-family: "Noto Serif JP", serif;
   font-weight: 400;
@@ -487,11 +494,11 @@ form {
 .product {
   display: inline-block;
   margin: 10px;
-  border: 1px solid #ccc;
+  
   padding: 20px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 29px;
+  background-color: transparent;
+  box-shadow: 0 0 10px white;
   width: 15%;
 }
 footer a {
@@ -501,9 +508,8 @@ footer a {
   height: 32px;
   line-height: 32px;
   text-align: center;
-  color: black;
+  color: white;
   border-radius: 50%;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease-in-out;
   margin-left: 1%;
   margin-right: 1%;
@@ -522,8 +528,8 @@ footer .fa {
 }
 
 .footer_style {
-  background-color: white;
-  box-shadow: 0px 5px 35px black;
+  background-color: black;
+  box-shadow: 0px 5px 35px white;
   padding: 8px 0 8px 0;
   margin-top: auto;
   width: 100%;
@@ -541,6 +547,10 @@ footer .fa {
   display: inline-block;
   font: normal normal normal 14px / 1 FontAwesome;
   font-size: 22px;
+  
+}
+.fa-facebook{
+  background-color: transparent;
 }
 
 div:where(.swal2-icon) {
@@ -1249,4 +1259,85 @@ aside li h2 {
   font-size: 24px;
   font-weight: 700;
   text-transform: uppercase;
+}
+.btn-signIn {
+  background: #4285f4;
+}
+
+.btn-createAccount {
+  background: #4daf7c;
+}
+.btn-createAccount:hover {
+  background: #41956a;
+}
+
+.user-data {
+  margin: 0 10px 0 0px !important;
+}
+
+.user-menu {
+  display: flex;
+  position: absolute;
+  right: 0%;
+  flex-direction: column;
+}
+
+@media (max-width: 769px) {
+  .navbar {
+    padding: 0.5rem 0;
+  }
+
+  .nav-link {
+    margin: 0.5rem 0;
+  }
+
+  .fixed-top {
+    height: auto;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .sidebar,
+  .product-info,
+  .carousel-container {
+    width: 100%;
+    margin: 0;
+  }
+
+  .product {
+    width: 100%;
+  }
+
+  .containerProducts {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .user-menu {
+    position: initial;
+  }
+
+  .px-4 {
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+  }
+  .mobile {
+    display: none;
+    color: black;
+  }
+  .form-holder {
+    zoom: 75%;
+  }
+
+  .form-content .form-items {
+    min-width: 120% !important;
+    padding: 5%;
+  }
+
+  .table-items {
+    zoom: 53%;
+    display: inline-table;
+  }
 }

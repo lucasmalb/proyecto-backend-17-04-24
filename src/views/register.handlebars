@@ -51,13 +51,13 @@
                       <input type="password" id="password" name="password" required="required">
                     </div>
                     <div class="form-group">
-                      <input type="hidden" id="failReason" value="{{ failReason }}">
+                      <input type="hidden" id="message" value="{{ message }}">
                       <input type="hidden" id="failRegister" value="{{ failRegister }}">
-                      <button type="submit" style="background: #4daf7c">Crear cuenta</button>
+                      <button type="submit" class="btn btn-primary btn-createAccount" >Crear cuenta</button>
                     </div>
                     <span>o</span>
                     <div class="form-group">
-                      <button type="button" onclick="window.location.href='/login'">Iniciar Sesión</button>
+                      <button type="button" class="btn btn-primary btn-signIn" onclick="window.location.href='/login'">Iniciar Sesión</button>
                     </div>
                   </form>
                 </div>
@@ -72,15 +72,20 @@
   }
 
   function showFailRegisterToast() {
-    const failRegister = document.getElementById('failRegister').value === 'true';
-    const failReason = document.getElementById('failReason').value;
-    if (failRegister) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const failRegister = urlParams.get('failRegister');
+    {{!-- const failRegister = document.getElementById('failRegister').value === 'true'; --}}
+    const errorMessage = document.getElementById('message').value;
+    if (failRegister && errorMessage) {
       Toastify({
-        text: failReason || "Registro fallido",
-        duration: 3000,
+        text: errorMessage,
+        duration: 3200,
         gravity: "bottom",
         position: "right",
-        backgroundColor: "#ff6347",
+      style: {
+        textAlign: "center",
+        background: "#b14040",
+      }
       }).showToast();
     }
   }

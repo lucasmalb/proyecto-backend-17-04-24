@@ -5,17 +5,14 @@ const userCollection = "users";
 const userSchema = mongoose.Schema({
   first_name: {
     type: String,
-    minLength: 3,
     required: true,
   },
   last_name: {
     type: String,
-    minLength: 3,
     required: true,
   },
   email: {
     type: String,
-    minLength: 5,
     required: true,
     unique: true,
   },
@@ -26,8 +23,6 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    minLength: 5,
-    required: true,
   },
   role: {
     type: String,

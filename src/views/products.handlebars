@@ -2,33 +2,15 @@
   <div class="mx-auto my-2 text-center border-2 text-uppercase">
     <h1>Tienda</h1>
   </div>
-        {{!-- {{#if user}}
-        <div style="display:flex;position:absolute;top:8%;right:1%;flex-direction: column;">
-          <div style="display: flex; justify-content: space-between;align-items: center;">
-            <p class="">Bienvenido {{user.first_name}} {{user.last_name}}!</p>
-            <form style="margin: 0 0 0 3rem"action="/logout" method="POST">
-            <button type="submit" class="btn button-black pl-3">Cerrar sesión</button>
-            </form>
-          </div>
-          <div style="display: flex;justify-content: space-between;align-items: center;">
-            <p class="">✉ {{user.email}}</p>
-            <p class="">Edad: {{user.age}}</p>
-            <p class="">Cuenta: {{user.role}}</p>
-          </div>
-    </div>
-
-    {{else}}
-   {{/if}} --}}
-
   <div class="containerProducts">
     <div class="sidebar">
-      <div class="logo text-center">sport Plus</div>
+      <div class="logo text-center">Sport Plus</div>
       <form action="/products" method="GET">
         <input type="text" id="txtSearch" name="title" placeholder="Buscar producto..." />
       </form>
 
-      <h3>Categoría</h3>
-      <ul class="category-list text-capitalize">
+      <h3 class="mobile"  style="color:black">Categoría</h3>
+      <ul class="category-list text-capitalize mobile">
         <li><a href="/products">Todos</a></li>
         {{#each categories}}
           <li><a href="/products?category={{this}}">{{this}}</a></li>
@@ -124,4 +106,5 @@ function initializeSortSelect() {
     });
   }
 }
+
 </script>

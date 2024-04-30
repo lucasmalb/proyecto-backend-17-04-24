@@ -1,82 +1,68 @@
 import { Router } from "express";
-// import userModel from "../dao/models/userModel.js";
-import { userService } from "../services/userService.js";
-import { createHash, isValidPassword } from "../utils/functionsUtil.js";
+import passport from "passport";
 
 const router = Router();
 
-router.post("/register", async (req, res) => {
-  try {
-    const { first_name, last_name, email, age, password } = req.body;
-    req.session.failRegister = false;
-    console.log(req.body);
-    const existingUser = await userService.getUserByEmail(email);
-    console.log(existingUser);
-    if (existingUser) {
-      req.session.failRegister = true;
-      req.session.failReason = "El correo electrónico ya está en uso.";
-      res.redirect("/register");
-      return;
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  (req, res) => {
+    res.send({
+      status: "success",
+      message: "Success",
+    });
+  }
+);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", {
+    failureMessage: true,
+    failureRedirect: "/login?failLogin=true",
+  }),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect("/products");
+  }
+);
+
+router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureMessage: true,
+    failureRedirect: "/register?failRegister=true",
+  }),
+  (req, res) => {
+    res.send({
+      status: "success",
+      message: "Usuario registrado",
+    });
+  }
+);
+
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    failureMessage: true,
+    failureRedirect: "/login?failLogin=true",
+  }),
+  (req, res) => {
+    if (!req.user) {
+      return res.send(401).send({
+        status: "error",
+        message: "Error Login!",
+      });
     }
-    const newUser = {
-      first_name,
-      last_name,
-      email,
-      age,
-      password: createHash(password),
-      role: "user",
+
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
+      role: req.user.role,
     };
-    await userService.createUser(newUser);
-    res.redirect("/login?successRegister=true");
-  } catch (error) {
-    console.log(error.message);
-    req.session.failRegister = true;
-    req.session.failReason = "Error al registrar el usuario.";
-    res.redirect("/register");
+    res.redirect("/products");
   }
-});
-
-router.post("/login", async (req, res) => {
-  try {
-    req.session.failLogin = false;
-    const { email, password, remember } = req.body;
-    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-      const adminUser = {
-        first_name: "admin",
-        last_name: "Coder",
-        email: "adminCoder@coder.com",
-        age: 30,
-        role: "admin",
-      };
-      req.session.user = adminUser;
-      return res.redirect("/products");
-    }
-
-    const result = await userService.getUserByEmail(email);
-    console.log("result:", result);
-    if (!result) {
-      req.session.failLogin = true;
-      return res.redirect("/login");
-    }
-
-    if (!isValidPassword(result, password)) {
-      req.session.failLogin = true;
-      return res.redirect("/login");
-    }
-
-    if (remember) {
-      console.log("Recordar credenciales por 7 dias");
-      req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 7 días
-    }
-
-    delete result.password;
-    req.session.user = result;
-
-    return res.redirect("/products");
-  } catch (e) {
-    req.session.failLogin = true;
-    return res.redirect("/login");
-  }
-});
+);
 
 export default router;

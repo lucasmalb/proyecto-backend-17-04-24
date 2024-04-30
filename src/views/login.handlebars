@@ -1,19 +1,29 @@
+<!-- Importar librerías -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+{{#if message}}
+<input type="hidden" id="errorMessage" value="{{ message }}">
+{{/if}}
+
+<!-- Scripts -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const successRegister = urlParams.get('successRegister');
+    const failLogin = urlParams.get('failLogin');
+    const errorMessage = document.getElementById('errorMessage');
 
-    if (successRegister === 'true') {
+    if (failLogin && errorMessage) {
       Toastify({
-        text: "¡Registro exitoso! Por favor, inicia sesión con tus nuevas credenciales.",
-        duration: 3500,
-        gravity: "center",
-        position: 'center',
-        backgroundColor: "#4caf50",
+        text: errorMessage.value,
+        duration: 3200,
+        gravity: "bottom",
+        position: "right",
         close: false,
+        style: {
+          textAlign: "center",
+          background: "#b14040",
+        }
       }).showToast();
     }
 
@@ -21,34 +31,38 @@
       icon: "info",
       iconHtml: '<img class="zoom-icon" style="filter: invert(100%)" src="../img/lock-fill.svg">',
       html: `<div class="form-panel one">
-                <div class="form-header">
-                  <h1>Iniciar Sesión</h1>
-                </div>
-                <div class="form-content">
-                  <form id="loginForm" method="post" action="/api/sessions/login">
-                    <div class="form-group">
-                      <label for="email">Correo electrónico</label>
-                      <input type="email" name="email" id="email" required="required">
-                    </div>
-                    <div class="form-group">
-                      <label for="password">Contraseña</label>
-                      <input type="password" id="password" name="password" required="required">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-remember">
-                        <input type="checkbox" id="remember-me" name="remember">Recordarme</input>
-                      </label>
-                      {{!-- <a class="form-recovery" href="#">¿Olvidó su contraseña?</a> --}}
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" style="background: #4285f4">Iniciar Sesión</button>
-                    </div>
-                    <div class="form-group justify-content-center">
-                      <span>No estás registrado? <a style="padding: 0;color: #4285f4;" href="/register">Crear una cuenta</a></span>
-                    </div>
-                  </form>
-                </div>
-              </div>`,
+        <div class="form-header">
+          <h1>Iniciar Sesión</h1>
+        </div>
+        <div class="form-content">
+          <form id="loginForm" method="post" action="/api/sessions/login">
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" name="email" id="email" required="required">
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input type="password" id="password" name="password" required="required">
+            </div>
+            {{!-- <div class="form-group">
+              <label class="form-remember">
+                <input type="checkbox" id="remember-me" name="remember">Recordarme</input>
+              </label>
+              <a class="form-recovery" href="#">¿Olvidó su contraseña?</a>
+            </div> --}}
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-signIn">Iniciar Sesión</button>
+            </div>
+          </form>
+          <div class="form-group">
+            <button class="btn button-black" onclick="window.location.href='/api/sessions/github'">
+            <i class="fa fa-github"></i> Iniciar sesión con GitHub</button>
+          </div>
+          <div class="form-group justify-content-center">
+            <span>No estás registrado? <a style="padding: 0;color: #4285f4;" href="/register">Crear una cuenta</a></span>
+          </div>
+        </div>
+      </div>`,
       showCloseButton: false,
       showConfirmButton: false,
       showCancelButton: false,
@@ -59,23 +73,9 @@
   });
 </script>
 
-{{#if failLogin}}
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    Toastify({
-      text: "¡Inicio de sesión fallido!\n Por favor, verifica tu correo electrónico y contraseña e intenta nuevamente.",
-      duration: 3500,
-      gravity: "center",
-      position: 'center',
-      backgroundColor: "#ff6347",
-      close: false,
-    }).showToast();
-  });
-</script>
-{{/if}}
-
+<!-- Estilos -->
 <style>
-  .zoom-icon{
-      zoom: 3.2;
+  .zoom-icon {
+    zoom: 3.2;
   }
 </style>

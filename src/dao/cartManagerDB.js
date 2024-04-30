@@ -118,4 +118,4 @@ import { cartModel } from "../dao/models/cartModel.js";
     }
   }
 }
-export default ( cartManagerDB );
+export default  cartManagerDB ;
